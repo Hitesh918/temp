@@ -9,48 +9,99 @@ function AdminViewTeacherProfile(props) {
     const dataString = searchParams.get('data');
     const data = JSON.parse(decodeURIComponent(dataString));
     const [details, setDetails] = React.useState({})
+    const [students, setStudents] = React.useState([]);
 
+
+    // React.useEffect(() => {
+    //     async function getTeacherDetails() {
+    //         const res = await axios.get(`http://localhost:5000/adminDetails`, {
+    //             params: {
+    //                 adminId: data.id,
+    //             }
+    //         });
+    //         console.log(res.data)
+    //         setDetails(res.data)
+    //     }
+    //     async function getStudents(){
+    //         try{
+    //             const res = await axios.get("http://localhost:5000/getStudentsUnderTeacher" , {
+    //                 params:{
+    //                     adminId : data.Id,
+    //                     courseId : data.cousreId
+    //                 }
+    //             })
+    //             setStudents(res.data)
+    //         }
+    //         catch(err){
+    //             console.log(err)
+    //         }
+    //     }
+    //     getTeacherDetails();
+    //     getStudents()
+    // }, [data.id]);
     React.useEffect(() => {
-        async function getTeacherDetails() {
-            const res = await axios.get(`http://localhost:5000/adminDetails`, {
-                params: {
-                    adminId: data.id,
-                }
-            });
-            console.log(res.data)
-            setDetails(res.data)
-        }
-        getTeacherDetails();
-    }, [data.id]);
+        async function fetchData() {
+            try {
+                const teacherRes = await axios.get(`http://localhost:5000/adminDetails`, {
+                    params: {
+                        adminId: data.id,
+                    }
+                });
+                console.log(teacherRes.data);
+                setDetails(teacherRes.data);
 
-    console.log(data)
+                const studentsRes = await axios.get("http://localhost:5000/getStudentsUnderTeacher", {
+                    params: {
+                        adminId: data.id,
+                        courseId: data.courseId
+                    }
+                });
+                setStudents(studentsRes.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchData();
+        console.log("students" , students)
+    }, [data.id]);
 
     return (
         <div>
             <Header />
-            <AdminSideBar name={props.name} />
-            <section className="teacher-profile">
-                <h1 className="heading">Profile Details</h1>
-                <div className="details">
-                    <div className="tutor">
-                        <img src={details.image} className="image" alt=""/>
+            {/* <AdminSideBar name={props.name} /> */}
+            <section className="teacher-profile" style={{ color: 'black', padding: '20px' }}>
+                <h1 className="heading" style={{ marginBottom: '20px' }}>Profile Details</h1>
+                <div className="details" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px' }}>
+                    <div className="tutor" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
+                        <img src={details.dp} className="image" alt="" style={{ border: '2px solid black', width: '100px', height: '100px' }} />
                         <h3>{details.name}</h3>
-                        <span className="adminId">Admin ID: {details.adminId}</span>
-                        <p className="mobile">Mobile: {details.mobile}</p>
+                        <span className="adminId1" style={{ fontSize: '20px' }}>Admin ID: {details.adminId}</span>
+                        <p className="mobile1" style={{ fontSize: '20px' }}>Mobile: {details.mobile}</p>
                     </div>
-                    <div className="courses">
+                    <div className="courses" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
                         <h2 className="sub-heading">Courses</h2>
                         {details.courses && details.courses.map((course, index) => (
-                            <div className="box" key={index}>
-                                <h3 className="title">{course.courseName}</h3>
+                            <div className="box" key={index} style={{ padding: '10px', border: '1px solid black', marginBottom: '20px', maxWidth: '300px', alignItems: 'center', display: 'flex', justifyContent: 'center', fontSize: '18px', borderRadius: '5px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
+                                <h3 className="title" style={{ fontSize: '20px' }}>{course.courseName}</h3>
                             </div>
                         ))}
                     </div>
                 </div>
+
+                <br></br> <br></br>
+
+                <h1 className="heading" style={{ marginBottom: '20px' }}>Students Assigned</h1>
+
+
             </section>
+
+
+
+
         </div>
     )
-    
+
 }
 
 export default AdminViewTeacherProfile

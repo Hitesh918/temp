@@ -55,9 +55,9 @@ function StudentLanding(props) {
             <div>
 
                <Header />
-               <StudentSideBar name={props && props.name} />
+               {/* <StudentSideBar name={props && props.name} /> */}
 
-               <section className="home-grid">
+               {/* <section className="home-grid">
 
                   <h1 className="heading">quick options</h1>
 
@@ -68,9 +68,13 @@ function StudentLanding(props) {
                            <h2 className="heading">Upcoming Schedule</h2>
                            <div className="event">
                               <h1>Cursive writing</h1>
-                              <h1>John deo</h1>
-                              <h1>4th March | 19:20</h1>
+                              <h1>John Deo</h1>
+                              <h1>14th April | 19:20</h1>
                            </div>
+                           
+                           <div className="meetclass">
+                        <button id="startClassBtn">Join Class</button>
+                     </div>
 
                         </div>
 
@@ -101,17 +105,10 @@ function StudentLanding(props) {
                      </div>
 
 
-                     <div className="meetclass">
-                        <h3 className="title">Start Class </h3>
-                        <p className="tutor">Begin Your Classes</p>
-                        <button id="startClassBtn">Start Class</button>
-                     </div>
-
-
                   </div>
 
                </section>
-
+ */}
 
 
                <section className="courses">
@@ -132,7 +129,7 @@ function StudentLanding(props) {
                               </div>
                               <div className="thumb">
                                  <img src="images/thumb-1.png" alt="" />
-                                 <span>{course.courseDetails.numberOfLevels}  levels</span>
+                                 <span>{course.courseDetails.numberOfLevels}  Levels</span>
                               </div>
                               <h3 className="title">{course.courseDetails.courseName}</h3>
                               <h2 style={{ color: "black" }}>Level {course.presentLevel}</h2>
@@ -151,7 +148,7 @@ function StudentLanding(props) {
                         );
                      })}
 
-                     {props && props.courses && props.courses.length === 0 && <h1>No courses enrolled</h1>}
+                     {props && props.courses && props.courses.length === 0 && <h1>No Courses Enrolled</h1>}
                      {props && props.courses && props.courses.length < 2 && <div></div>}
 
 
@@ -161,7 +158,7 @@ function StudentLanding(props) {
                   </div>
 
                   <div className="more-btn">
-                     <a href="/courses" className="inline-option-btn">view all courses</a>
+                     <a href="/courses" className="inline-option-btn">View All Courses</a>
                   </div>
 
                </section>

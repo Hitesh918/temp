@@ -56,9 +56,10 @@ function App() {
             if (user) {
                 console.log(user.email);
                 if (user.email.substring(4, 8) === "sudo") {
-                    // navigate("/SuperAdmin", { replace: true });
-                } else if (user.email.substring(4, 7) === "adm") {
                     setUserRole("admin");
+                    setUserMail(user.email)
+                } else if (user.email.substring(4, 7) === "adm") {
+                    setUserRole("teacher");
                     setUserMail(user.email)
                 } else if (user.email.substring(4, 7) === "stu") {
                     setUserRole("student");
@@ -103,6 +104,22 @@ function App() {
                 throw error;
             }
         };
+
+        const fetchDataForSuperAdminPages = async (id) => {
+            console.log("callllllled")
+            try {
+                const superAdminDetails = await axios.get("http://localhost:5000/superAdminDetails", {
+                    params: {
+                        superAdminId: id
+                    }
+                });
+                console.log("superAdminDetails" , superAdminDetails)
+                return superAdminDetails.data;
+            } catch (error) {
+                console.error("Error fetching superAdmin details:", error);
+                throw error;
+            }
+        }
         const fetchCourseList = async () => {
             console.log("callllllled")
             try {
@@ -117,13 +134,21 @@ function App() {
         const fetchData = async (id) => {
             try {
                 if (userRole === 'admin') {
-                    const adminData = await fetchDataForAdminPages(id);
+                    const superAdminData = await fetchDataForSuperAdminPages(id);
                     let courses = await fetchCourseList();
                     setAllCourses(courses);
-                    setUserData(adminData);
-                } else if (userRole === 'student') {
+                    setUserData(superAdminData);
+                }
+                else if (userRole === 'teacher') {
+                    const adminData = await fetchDataForAdminPages(id)
+                    setUserData(adminData)
+                }
+                else if (userRole === 'student') {
                     const studentData = await fetchDataForStudentPages(id);
                     setUserData(studentData);
+                }
+                else {
+
                 }
             } catch (error) {
 
@@ -132,7 +157,13 @@ function App() {
         };
 
         if (userRole && userMail) {
-            fetchData(userMail.substring(7, 12));
+            if(userRole == "admin"){
+                fetchData(userMail.substring(8, 13));
+            }
+            else{
+                fetchData(userMail.substring(7, 12));
+            }
+
         }
     }, [userRole, userMail]);
 
@@ -141,24 +172,35 @@ function App() {
         <div>
             <BrowserRouter>
                 <div>
-                    {userRole==="admin" && userData && <AdminSideBar name={userData && userData.name} role={userRole} id={userData && userData.adminId} dp={userData && userData.dp} />}
+                    {userRole === "admin" && userData && <AdminSideBar name={userData && userData.name} role={userRole} id={userData && userData.superAdminId} dp={userData && userData.dp} />}
+                    {userRole === "teacher" && userData && <TeacherSideBar name={userData && userData.name} role={userRole} id={userData && userData.adminId} dp={userData && userData.dp} />}
+                    {userRole === "student" && userData && <StudentSideBar name={userData && userData.name} role={userRole} id={userData && userData.studentId} dp={userData && userData.dp} />}
                     <Routes>
                         <Route path='/login' element={<Login />} />
                         <Route path='/about' element={<About />} />
                         {/* Admin routes */}
                         {userRole === 'admin' && (
                             <>
-                                <Route path='/Admin' element={<AdminLanding name={userData && userData.name} courses={allCourses} userRole={userRole} id={userData && userData.adminId} dp={userData && userData.dp} />} />
-                                <Route path='/AdminAddStudent' element={<AdminAddStudent name={userData && userData.name} courses={userData && userData.courses} id={userData && userData.adminId} />} />
-                                <Route path='/AdminAddTeacher' element={<AdminAddTeacher name={userData && userData.name} courses={allCourses} id={userData && userData.adminId} />} />
+                                <Route path='/Admin' element={<AdminLanding  courses={allCourses} userRole={userRole} id={userData && userData.superAdminId} />} />
+                                <Route path='/AdminAddStudent' element={<AdminAddStudent  courses={userData && userData.courses} id={userData && userData.superAdminId} />} />
+                                <Route path='/AdminAddTeacher' element={<AdminAddTeacher  courses={allCourses} id={userData && userData.superAdminId} />} />
                                 {/* <Route path='/adminupdate' element={<AdminUpdate />} /> */}
-                                <Route path='/AdminProfile' element={<AdminProfile />} />
-                                <Route path='/AdminUploadMaterial' element={<AdminUploadMaterial name={userData && userData.name} courses={allCourses} />} />
-                                <Route path='/ManageCourse' element={<ManageCourse name={userData && userData.name} />} />
-                                <Route path='/ManageLevel' element={<ManageLevel name={userData && userData.name} />} />
+                                <Route path='/AdminProfile' element={<AdminProfile details={userData}/>} />
+                                <Route path='/AdminUploadMaterial' element={<AdminUploadMaterial courses={allCourses} />} />
+                                <Route path='/AdminViewCourses' element={<AdminViewCourses  />} />
+                                <Route path='/AdminViewTeacherProfile' element={<AdminViewTeacherProfile  />} />
                             </>
                         )}
+                        {userRole == "teacher" && (
+                            <>
+                                <Route path='/Teacher' element={<TeacherLanding name={userData && userData.name} courses={userData && userData.courses} adminId={userData && userData.adminId} />} />
+                                <Route path='/TeacherProfile' element={<TeacherProfile />} />
+                                <Route path='/ViewStudent' element={<ViewStudent />} />
+                                <Route path='/ManageCourse' element={<ManageCourse name={userData && userData.name} />} />
+                                <Route path='/ManageLevel' element={<ManageLevel name={userData && userData.name} />} />
 
+                            </>
+                        )}
                         {/* Student routes */}
                         {userRole === 'student' && (
                             <>
@@ -167,7 +209,6 @@ function App() {
                                 <Route path='/StudentProfile' element={<StudentProfile name={userData && userData.name} />} />
                                 <Route path='/levels' element={<Levels name={userData && userData.name} id={userData && userData.studentId} />} />
                                 <Route path='/resource' element={<Resource name={userData && userData.name} id={userData && userData.studentId} />} />
-
                             </>
                         )}
                         {/* Common routes */}
@@ -178,13 +219,7 @@ function App() {
                         <Route path='/teacher_profile' element={<TeacherProfile />} />
                         <Route path='/update' element={<Update />} />
                         <Route path='/watch_video' element={<WatchVideo />} />
-                        <Route path='/Teacher' element={<TeacherLanding name={userData && userData.name} courses={userData && userData.courses} adminId={userData && userData.adminId} />} />
-                        <Route path='/TeacherProfile' element={<TeacherProfile />} />
-                        <Route path='/ViewStudent' element={<ViewStudent />} />
-                        <Route path='/AdminViewCourses' element={<AdminViewCourses name={userData && userData.name} />} />
-                        <Route path='/AdminViewTeacherProfile' element={<AdminViewTeacherProfile name={userData && userData.name} />} />
                     </Routes>
-
                 </div>
             </BrowserRouter>
         </div>

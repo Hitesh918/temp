@@ -42,7 +42,7 @@ function TeacherLanding(props) {
          {loading ? <Loader /> :
             <div>
                <Header />
-               <TeacherSideBar name={props && props.name} />
+               {/* <TeacherSideBar name={props && props.name} /> */}
 
                {/* <section className="home-grid">
 

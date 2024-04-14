@@ -131,7 +131,7 @@ function ManageLevel(props) {
                 </div>
                 <br /> <br />
 
-                <h1 className="heading">Stdents</h1>
+                <h1 className="heading">Students</h1>
                 <div className='container' style={{ minWidth: "80%" }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
                         <tr style={{ backgroundColor: '#8E44AD' }}>

@@ -24,10 +24,10 @@ function Login() {
             if (user) {
                console.log(user.email.substring(4, 7))
                if (user.email.substring(4, 8) === "sudo") {
-                  navigate("/SuperAdmin", { replace: true });
+                  navigate("/Admin", { replace: true });
                }
                else if (user.email.substring(4, 7) === "adm") {
-                  navigate("/Admin", { replace: true });
+                  navigate("/Teacher", { replace: true });
                }
                else if(user.email.substring(4, 7) === "stu"){
                   navigate("/Student", { replace: true });

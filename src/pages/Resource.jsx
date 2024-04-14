@@ -55,7 +55,7 @@ function Resource(props) {
 
             <div>
                 <Header />
-                <StudentSideBar name={props.name} />
+                {/* <StudentSideBar name={props.name} /> */}
 
                 <section className="playlist-details">
 

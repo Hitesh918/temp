@@ -18,7 +18,7 @@ function about(){
       </div>
 
       <div className="content">
-         <h3>why choose us?</h3>
+         <h3>Why Choose Us?</h3>
          <p>Raja Educational Academy offers a unique blend of experienced leadership, holistic education, and innovative teaching methods. Our focus on traditional techniques like Abacus and Vedic Maths, combined with modern approaches, ensures comprehensive skill development for students. Experience the transformative impact on confidence, academic performance, and community engagement. Choose Raja Educational Academy for excellence in education and preparation for a brighter future.</p>         <a href="/courses" className="inline-btn">our courses</a>
       </div>
 
@@ -29,24 +29,24 @@ function about(){
       <div className="box">
          <i className="fas fa-graduation-cap"></i>
          <div>
-            <h3>+10k</h3>
-            <p>online courses</p>
+            <h3>6</h3>
+            <p>Online Courses</p>
          </div>
       </div>
 
       <div className="box">
          <i className="fas fa-user-graduate"></i>
          <div>
-            <h3>+40k</h3>
-            <p>brilliant students</p>
+            <h3>+1000</h3>
+            <p>Brilliant Students</p>
          </div>
       </div>
 
       <div className="box">
          <i className="fas fa-chalkboard-user"></i>
          <div>
-            <h3>+2k</h3>
-            <p>expert tutors</p>
+            <h3>+50</h3>
+            <p>Expert Tutors</p>
          </div>
       </div>
 
@@ -56,7 +56,7 @@ function about(){
 
 </section> 
 
-<section className="reviews">
+{/* <section className="reviews">
 
    <h1 className="heading">student's reviews</h1>
 
@@ -166,7 +166,7 @@ function about(){
 
    </div>
 
-</section>
+</section> */}
 
 
 

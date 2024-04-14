@@ -4,7 +4,7 @@ import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { set } from 'firebase/database';
+
 function AdminSideBar(props) {
     const navigate = useNavigate();
     const [profilePic, setProfilePic] = useState("images/pic-1.jpg");
@@ -24,35 +24,17 @@ function AdminSideBar(props) {
     }
 
     React.useEffect(() => {
-        setProfilePic(props.dp);
+        if(props && props.dp !== ""){
+            setProfilePic(props.dp);
+        }
     }, [props.dp]);
-
-    //  const upload = async (file) => {
-    //     if ( file === "") {
-    //        alert("Please fill in the details")
-    //        return
-    //     }
-    //     const base64 = await convertBase64(file)
-    //     axios.post("http://localhost:5000/upload", { image: base64},
-    //     ).then((res) => {
-    //        if (res.data === "Resource added") {
-    //           alert("Resource added")
-    //        }
-    //        else {
-    //           alert("Failed to upload")
-    //        }
-    //        console.log(res)
-    //     }).catch((e) => { console.log(e) })
-    //  }
 
     function handleProfilePicChange(e) {
         if (e.target.files && e.target.files[0]) {
             let reader = new FileReader();
             reader.onload = (e) => {
                 const base64Image = e.target.result;
-                setProfilePic(base64Image); // Set profile pic using the provided setProfilePic function
-
-                // Make a POST request to the server with the base64 image data
+                setProfilePic(base64Image); 
                 axios.post("http://localhost:5000/uploadDP", { image: base64Image , role : props.role , id : props.id})
                     .then((res) => {
                         if (res.data === "Resource added") {
@@ -70,15 +52,6 @@ function AdminSideBar(props) {
             reader.readAsDataURL(e.target.files[0]);
         }
     }
-    // function handleProfilePicChange(e) {
-    //     if (e.target.files && e.target.files[0]) {
-    //         let reader = new FileReader();
-    //         reader.onload = (e) => {
-    //             setProfilePic(e.target.result);
-    //         };
-    //         reader.readAsDataURL(e.target.files[0]);
-    //     }
-    // }
 
     return (
         <div className="side-bar">

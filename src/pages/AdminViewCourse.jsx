@@ -32,7 +32,7 @@ function AdminViewCourses(props) {
     return (
         <div>
             <Header />
-            <AdminSideBar name={props && props.name} />
+            {/* <AdminSideBar name={props && props.name} /> */}
 
             <section className="playlist-videos">
 
@@ -54,7 +54,7 @@ function AdminViewCourses(props) {
                                     <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{teacher.mobile}</td>
                                     {/* <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.email}</td> */}
                                     <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black', textAlign: "center" }}>
-                                        <Link to={`/AdminViewTeacherProfile?data=${encodeURIComponent(JSON.stringify({ "id": teacher.adminId }))}`} className="profile-btn">View Profile</Link>
+                                        <Link to={`/AdminViewTeacherProfile?data=${encodeURIComponent(JSON.stringify({ "id": teacher.adminId , "courseId":data.id }))}`} className="profile-btn">View Profile</Link>
                                     </td>
                                 </tr>
                             )

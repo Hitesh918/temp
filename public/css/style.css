@@ -3037,3 +3037,8 @@ section{
    pointer-events: none;
    opacity: 0.5; /* Optionally, reduce opacity for disabled links */
 }
+
+body{
+   padding-top: 0;
+   padding-right: 0;
+}

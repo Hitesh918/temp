@@ -60,7 +60,7 @@ function AdminUploadMaterial(props) {
    return (
       <div>
          <Header />
-         <AdminSideBar name={props.name} />
+         {/* <AdminSideBar name={props.name} /> */}
          <section className="home-grid">
             <h1 className="heading">Upload Resources</h1>
             <div style={{ marginTop: "10rem", color: "black", height: "35rem" }} className='container'>

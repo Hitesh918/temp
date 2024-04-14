@@ -71,7 +71,7 @@ function AdminLanding(props) {
                   </div>
 
                   <div className="more-btn">
-                     <a href="/courses" className="inline-option-btn">view all courses</a>
+                     <a href="/courses" className="inline-option-btn">View All Courses</a>
                   </div>
 
                </section>

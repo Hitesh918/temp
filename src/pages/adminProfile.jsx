@@ -1,88 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from '../components/Header';
 import AdminSideBar from '../components/AdminSideBar';
-function AdminProfile() {
+import { Link } from 'react-router-dom';
+
+function AdminProfile(props) {
+   const [details, setDetails] = React.useState({})
+
+   React.useEffect(() => {
+      setDetails(props.details)
+   }, [props])
+   console.log(props)
 
    return (
       <div>
-
          <Header />
 
-         <AdminSideBar />
+         <section className="admin-profile" style={{ 
+    color: 'black', 
+    padding: '20px', 
+    backgroundColor: 'white', 
+    borderRadius: '10px',
+    boxShadow: '5px 5px 10px rgba(0,0,0,0.1)',
+    fontFamily: 'Arial, sans-serif'
+}}>
+    <h1 className="heading" style={{ marginBottom: '20px' }}>Profile Details</h1>
+    <div className="details" style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'space-between', 
+        gap: '20px' 
+    }}>
+        <div className="admin" style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '10px', 
+            alignItems: 'center',
+            backgroundColor: 'white',
+            padding: '20px',
+            borderRadius: '10px'
+        }}>
+            <img src={details && details.dp} className="image" alt="" style={{ 
+                border: '2px solid black', 
+                width: '100px', 
+                height: '100px', 
+                borderRadius: '50%',
+            }} />
+            <h1>{details && details.name}</h1>
+            <span className="adminId1" style={{ fontSize: '20px' }}>Super Admin ID: {details && details.superAdminId}</span>
+            <p className="mobile1" style={{ fontSize: '20px' }}>Mobile: {details && details.mobile}</p>
+            <p className="email1" style={{ fontSize: '20px' }}>Email: {details && details.email}</p>
+        </div>
+    </div>
+</section>
 
-         {/* <header className="header">
-       
-       <section className="flex">
-    
-          <div className="profile">
-             <img src="images/pic-1.jpg" className="image" alt=""/>
-             <h3 className="name">Raj</h3>
-             <p className="role">Admin</p>
-             <a href="/adminprofile" className="btn">view profile</a>
-             <div className="flex-btn">
-                <a href="/adminlogin" className="option-btn">login</a>
-                <a href="/adminregister" className="option-btn">register</a>
-             </div>
-          </div>
-    
-       </section>
-    
-    </header>    */}
 
 
-
-         <section className="user-profile">
-
-            <h1 className="heading">your profile</h1>
-
-            <div className="info">
-
-               <div className="user">
-                  <img src="images/pic-1.jpg" alt="" />
-                  <h3>Raj</h3>
-                  <p>Admin</p>
-                  <a href="/adminupdate" className="inline-btn">update profile</a>
-               </div>
-
-               <div className="box-container">
-
-                  <div className="box">
-                     <div className="flex">
-                        <i className="fas fa-bookmark"></i>
-                        <div>
-                           <span>4</span>
-                           <p>saved playlist</p>
-                        </div>
-                     </div>
-                     <a href="#" className="inline-btn">view playlists</a>
-                  </div>
-
-                  <div className="box">
-                     <div className="flex">
-                        <i className="fas fa-heart"></i>
-                        <div>
-                           <span>33</span>
-                           <p>videos courses</p>
-                        </div>
-                     </div>
-                     <a href="#" className="inline-btn">view student</a>
-                  </div>
-
-                  <div className="box">
-                     <div className="flex">
-                        <i className="fas fa-comment"></i>
-                        <div>
-                           <span>12</span>
-                           <p>videos comments</p>
-                        </div>
-                     </div>
-                     <a href="#" className="inline-btn">view comments</a>
-                  </div>
-
-               </div>
-            </div>
-
-         </section>
 
 
       </div>

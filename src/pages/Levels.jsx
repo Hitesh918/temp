@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import StudentSideBar from '../components/StudentSideBar';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 
 function Levels(props) {
     const [searchParams] = useSearchParams();
@@ -20,7 +20,7 @@ function Levels(props) {
             getCourseDetails();
 
         }
-        console.log("courseDetails" , courseDetails)
+        console.log("courseDetails", courseDetails)
     }, [data.id, props.id]);
 
     // console.log(props)
@@ -28,7 +28,7 @@ function Levels(props) {
     return (
         <div>
             <Header />
-            <StudentSideBar name={props && props.name} />
+            {/* <StudentSideBar name={props && props.name} /> */}
             <section className="playlist-details">
 
                 <h1 className="heading">Course details</h1>
@@ -66,40 +66,25 @@ function Levels(props) {
                 <h1 className="heading">Levels</h1>
 
                 <div className="box-container">
-                    {/* 
-                    {courseDetails.levels && courseDetails.levels.map((level, index) => {
-                        return (
-                            <a key={index} className="box" href={`/resource?data=${encodeURIComponent(JSON.stringify({"id":courseDetails.courseId , "level" : level.level}))}`} disabled={level.level > data.level }>
-                                <i className="fas fa-play"></i>
-                                <img src="images/post-1-1.png" alt="" />
-                                <h3>{level.level}</h3>
-                                
-                            </a>
-                        )
-                    })} */}
 
-                    {/* {Array.from({ length: data && data.numberOfLevels }, (_, i) => (
-                        <a
-                            key={i + 1}
-                            className={`box`}
-                            href={`/resource?data=${encodeURIComponent(JSON.stringify({ "id": data.id, "level": i + 1 }))}`}
-                            disabled="true"
-                        >
-                            <i className="fas fa-play"></i>
-                            <img src="images/post-1-1.png" alt="" />
-                            <h3>Level {i + 1}</h3>
-                        </a>
-                    ))} */}
                     {Array.from({ length: data && data.numberOfLevels }, (_, i) => (
-                        <a
-                            key={i + 1}
-                            className={`box ${i + 1 > data.level ? 'disabled-link' : ''}`}
-                            href={`/resource?data=${encodeURIComponent(JSON.stringify({ "id": data.id, "level": i + 1 , "studentId" : data.studentId}))}`}
+                        // <a
+                        //     key={i + 1}
+                        //     className={`box ${i + 1 > data.level ? 'disabled-link' : ''}`}
+                        //     href={`/resource?data=${encodeURIComponent(JSON.stringify({ "id": data.id, "level": i + 1 , "studentId" : data.studentId}))}`}
+                        // >
+                        //     <i className="fas fa-play"></i>
+                        //     <img src="images/post-1-1.png" alt="" />
+                        //     <h3>Level {i + 1}</h3>
+                        // </a>
+                        <Link
+                            to={`/resource?data=${encodeURIComponent(JSON.stringify({ "id": data.id, "level": data.level, "studentId": data.studentId }))}`}
+                            className={`box ${i+1> data.level ? 'disabled-link' : ''}`}
                         >
                             <i className="fas fa-play"></i>
                             <img src="images/post-1-1.png" alt="" />
-                            <h3>Level {i + 1}</h3>
-                        </a>
+                            <h3>Level {i+1}</h3>
+                        </Link>
                     ))}
 
                 </div>

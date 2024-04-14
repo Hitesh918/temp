@@ -27,7 +27,8 @@ let superAdminSchema = new mongoose.Schema({
     },
     dp:
     {
-        type: String
+        type: String,
+        default:"images/pic-1.jpg"
     }
 });
 
@@ -76,7 +77,9 @@ let adminSchema = new mongoose.Schema({
         // required: true,
     },
     dp:{
-        type : String
+        type : String,
+        default:"images/pic-1.jpg"
+
     },
     courses: [{
         courseId: {
@@ -127,7 +130,8 @@ let studentSchema = new mongoose.Schema({
     },
     dp:
     {
-        type: String
+        type: String,
+        default:"images/pic-1.jpg"
     },
     courses: [{
         courseId: {
@@ -143,7 +147,10 @@ let studentSchema = new mongoose.Schema({
             required: true
         },
         batch:Number,
-        classLink:String,
+        classLink:{
+            type : String,
+            default : "http://www.google.com/"
+        }
     }]
 });
 studentSchema.pre('save', async function(next) {

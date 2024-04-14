@@ -20,7 +20,6 @@ function CourseCheckbox({ course, isChecked, onChange }) {
     );
 }
 
-
 function AdminAddTeacher(props) {
 
     const [courses, setCourses] = React.useState([])
@@ -60,8 +59,8 @@ function AdminAddTeacher(props) {
         var phone = document.getElementById("phone").value.trim();
         var courses = Object.keys(checkedCourses).filter(courseId => checkedCourses[courseId]).map(courseId => parseInt(courseId));
         var profile = document.getElementById("profile").value.trim();
-
-        if (fullName === "" || emaill === "" || phone === ""  ) {
+        var adminId = document.getElementById("adminId").value.trim();
+        if (fullName === "" || emaill === "" || phone === ""  || adminId === "") {
             alert("Please fill out all fields.");
             return false;
         }
@@ -78,7 +77,8 @@ function AdminAddTeacher(props) {
                         email: emaill,
                         mobile: phone,
                         course: courses,
-                        info: profile
+                        info: profile,
+                        id : adminId
                     }
                 })
                     .then((res) => {
@@ -99,17 +99,13 @@ function AdminAddTeacher(props) {
         return confirmed; // Return true if confirmed, false otherwise
     }
 
-
-
-
-
     // console.log(props)
 
     return (
         <div>
 
             <Header />
-            <AdminSideBar name={props && props.name} />
+            {/* <AdminSideBar name={props && props.name} /> */}
             <section className="home-grid">
                 <h1 className="heading">Add Teacher</h1>
                 <div className="container">
@@ -118,6 +114,10 @@ function AdminAddTeacher(props) {
                         <div className="form-group">
                             <label htmlFor="fullName">Full Name:</label>
                             <input type="text" id="fullName" name="fullName" required />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="adminId">Teacher ID:</label>
+                            <input style={{width : "45rem" , border:"1px solid" , height:"3.4rem" , borderRadius:"5px" , padding : "10px"}} type="number" id="adminId" name="adminId" inputMode="numeric" pattern="[0-9]*" required />
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email ID:</label>
