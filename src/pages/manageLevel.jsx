@@ -116,7 +116,7 @@ function ManageLevel(props) {
 
         <div>
             <Header />
-            <TeacherSideBar name={props.name} />
+            {/* <TeacherSideBar name={props.name} /> */}
 
             <section className="playlist-details">
 

@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import AdminSideBar from '../components/AdminSideBar';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function AdminViewTeacherProfile(props) {
     const [searchParams] = useSearchParams();
@@ -47,7 +48,6 @@ function AdminViewTeacherProfile(props) {
                         adminId: data.id,
                     }
                 });
-                console.log(teacherRes.data);
                 setDetails(teacherRes.data);
 
                 const studentsRes = await axios.get("http://localhost:5000/getStudentsUnderTeacher", {
@@ -57,14 +57,40 @@ function AdminViewTeacherProfile(props) {
                     }
                 });
                 setStudents(studentsRes.data);
+                console.log(studentsRes.data)
             } catch (error) {
                 console.error(error);
             }
         }
 
         fetchData();
-        console.log("students" , students)
+        console.log("students", students)
     }, [data.id]);
+
+    async function handleChange(studentId, index, newValue) {
+        console.log("Student ID:", studentId);
+        console.log("New Value:", newValue);
+        var confirmed = window.confirm("Are you sure you want to put this student into new batch?");
+        if (confirmed) {
+            try {
+                const res = await axios.post("http://localhost:5000/changeBatch", {}, {
+                    params: {
+                        studentId: studentId,
+                        courseId: data.id,
+                        batch: newValue
+                    }
+                });
+                console.log(res.data)
+                // if(res.data === "success"){
+                //     window.location.reload()
+                // }
+            }
+            catch (error) {
+                console.error('An error occurred:', error);
+            }
+        }
+    }
+
 
     return (
         <div>
@@ -92,6 +118,53 @@ function AdminViewTeacherProfile(props) {
                 <br></br> <br></br>
 
                 <h1 className="heading" style={{ marginBottom: '20px' }}>Students Assigned</h1>
+
+                <div className='container' style={{ minWidth: "80%" }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+                        <tr style={{ backgroundColor: '#8E44AD' }}>
+                            <th style={{ padding: '10px', border: '1px solid #e8e6e6' }}>Student Id</th>
+                            <th style={{ padding: '10px', border: '1px solid #e8e6e6' }}>Full Name</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Phone Number</th>
+                            {/* <th style={{ padding: '10px', border: '1px solid #ddd' }}>Mail ID</th> */}
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Batch</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Actions</th>
+                        </tr>
+                        {students.map((student, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.studentId}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.name}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.mobile}</td>
+                                    {/* <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.email}</td> */}
+                                    <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.batch}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black', textAlign: "center" }}>
+                                        <button value={student.studentId} style={{ marginRight: "1rem" }} className="remove-btn" >Remove</button>
+                                        {/* <select onChange={handleChange} style={{ marginRight: "1rem" }} className="add-btn">
+                                            <option value="1">Change Batch</option>
+
+                                            {Array.from({ length: data.numberOfBatches }, (_, i) => i + 1).map((data, index) => {
+                                                return (
+                                                    <option key={index} value={data}>{data}</option>
+                                                )
+                                             })}
+                                        </select> */}
+                                        <select onChange={e => handleChange(student.studentId, index, e.target.value)} style={{ marginRight: "1rem" }} className="add-btn">
+                                            <option value="1">Change Batch</option>
+
+                                            {Array.from({ length: data.numberOfBatches }, (_, i) => i + 1).map((data, index) => {
+                                                return (
+                                                    <option key={index} value={data}>{data}</option>
+                                                )
+                                            })}
+                                        </select>
+                                        {/* <Link to={`/ViewStudent?data=${encodeURIComponent(JSON.stringify({ "id": student.studentId }))}`} className="profile-btn">View Profile</Link> */}
+                                        <button className="profile-btn" >View Profile</button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </table>
+                </div>
 
 
             </section>

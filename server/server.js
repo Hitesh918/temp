@@ -175,17 +175,41 @@ app.get("/adminDetails", async (req, res) => {
 app.get("/getStudentsUnderTeacher", async (req, res) => {
 
     console.log(req.query)
-    let adminId = parseInt(req.query.adminId)
+    let taughtBy = parseInt(req.query.adminId)
+    // let adminId = parseInt(req.query.adminId)
     let courseId = parseInt(req.query.courseId)
     try{
-        let students=await Student.find({
-            "courses": {
-                $elemMatch: {
-                    "taughtBy": adminId,
-                    "courseId": courseId,
+        // let students=await Student.find({
+        //     "courses": {
+        //         $elemMatch: {
+        //             "taughtBy": adminId,
+        //             "courseId": courseId,
+        //         }
+        //     }
+        // }).select("name email mobile studentId.$");
+        // res.send(students);
+        let students=await Student.aggregate([
+            {
+                $unwind: "$courses"
+            },
+            {
+                $match: {
+                    "courses.courseId": courseId,
+                    "courses.taughtBy": taughtBy
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    email: 1,
+                    name: 1,
+                    studentId: 1,
+                    mobile: 1,
+                    dp: 1,
+                    batch: "$courses.batch"
                 }
             }
-        }).select("name email mobile studentId.$");
+        ])
         res.send(students);
     }
     catch(error){

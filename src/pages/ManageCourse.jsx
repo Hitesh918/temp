@@ -13,7 +13,7 @@ function ManageCourse(props) {
     return (
         <div>
             <Header />
-            <TeacherSideBar name={props && props.name} />
+            {/* <TeacherSideBar name={props && props.name} /> */}
 
             <section className="playlist-videos">
 

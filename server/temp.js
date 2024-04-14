@@ -6,6 +6,35 @@ mongoose.connect("mongodb+srv://hrenukunta66:hitesh66@cluster0.pfx1ved.mongodb.n
         console.log(err)
     })
 
+    let courseId=1
+    let taughtBy=24001
+
+    Student.aggregate([
+        {
+            $unwind: "$courses"
+        },
+        {
+            $match: {
+                "courses.courseId": courseId,
+                "courses.taughtBy": taughtBy
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                email: 1,
+                name: 1,
+                studentId: 1,
+                mobile: 1,
+                dp: 1,
+                batch: "$courses.batch"
+            }
+        }
+    ]).then((res)=>{
+        console.log(res)
+    })
+
+
 // Course.aggregate([
 //     {
 //         $lookup: {
