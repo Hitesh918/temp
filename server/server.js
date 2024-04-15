@@ -161,6 +161,7 @@ app.get("/adminDetails", async (req, res) => {
             adminId: admin.adminId,
             mobile: admin.mobile,
             courses: courses,
+            email  : admin.email,
             dp: admin.dp,
         };
         res.send(result);
@@ -440,6 +441,33 @@ app.post("/changeBatch", async (req, res) => {
     }
 })
 
+app.post("/changeTeacher", async (req, res) => {
+    console.log(req.query)
+    try{
+        let oldAdminId = parseInt(req.query.oldAdminId)
+        let newAdminId = parseInt(req.query.newAdminId)
+        let studentId = parseInt(req.query.studentId)
+        let courseId = parseInt(req.query.courseId)
+
+        await Admin.updateOne(
+            { adminId: oldAdminId, "courses.courseId": courseId },
+            { $pull: { "courses.$.studentList": studentId } }
+        );
+
+        await Admin.updateOne(
+            { adminId: newAdminId, "courses.courseId": courseId },
+            { $addToSet: { "courses.$.studentList": studentId } }
+        );
+
+        await Student.updateOne({ studentId: studentId, "courses.courseId": courseId }, { $set: { "courses.$.taughtBy": newAdminId , "courses.$.batch":1 } });
+
+        console.log("Teacher changed");
+        res.send("success");
+    }
+    catch(error){
+        console.log(error)
+    }
+});
 
 app.post("/removeStudentFromCourse", async (req, res) => {
     console.log(req.query)
@@ -494,6 +522,34 @@ app.post("/removeStudentFromAllCourses", async (req, res) => {
     }
 
 });
+
+app.post("/removeTeacherFromCourse", async (req, res) => {
+    console.log(req.query)
+    let adminId = parseInt(req.query.adminId)
+    let courseId = parseInt(req.query.courseId)
+    try {
+        let resp = await Admin.findOneAndUpdate(
+            { 'adminId': adminId, 'courses.courseId': courseId, 'courses.studentList': { $exists: true, $eq: [] } },
+            { $pull: { 'courses': { 'courseId': courseId } } }
+        );
+        console.log(resp)
+        if(resp){
+            await Course.updateOne(
+                { courseId: courseId },
+                { $pull: { teachers: adminId } }
+            );
+            res.send("success");
+        }
+        else{
+            res.send("Admin has students in the course")
+        }
+        // console.log("Teacher removed");
+        // res.send("success");
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
 
 app.post("/uploadDP", async (req, res) => {
     console.log(req.body)

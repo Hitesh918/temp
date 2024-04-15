@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react'
 import { auth } from '../firebase'
 import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function TeacherSideBar(props) {
+    const location = useLocation();
     const navigate = useNavigate();
     const [profilePic, setProfilePic] = useState("images/pic-1.jpg");
     const fileInput = useRef(null); //reference to file input
@@ -52,6 +53,10 @@ function TeacherSideBar(props) {
     }, [props.dp]);
 
     console.log("props in sidebar" , props)
+
+    if(location.pathname === "/" || location.pathname === "/login"){
+        return null;
+    }
 
     return (
         <div className="side-bar">

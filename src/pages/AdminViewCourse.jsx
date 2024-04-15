@@ -10,6 +10,8 @@ function AdminViewCourses(props) {
     const dataString = searchParams.get('data');
     const data = JSON.parse(decodeURIComponent(dataString));
     const [teachers , setTeachers ] = React.useState([])
+    const [teacherList , setTeacherList ] = React.useState([])
+
     // const [courseDetails, setCourseDetails] = React.useState({});
 
     React.useEffect(() => {
@@ -17,6 +19,7 @@ function AdminViewCourses(props) {
             try {
                 const res = await axios.get(`http://localhost:5000/sudoTeacherList?courseId=${data.id}`);
                 setTeachers(res.data)
+                setTeacherList(res.data.map(teacher => ({"adminId": teacher.adminId , "name": teacher.name , })))
                 console.log(res.data)
             }
             catch (e) {
@@ -27,7 +30,6 @@ function AdminViewCourses(props) {
     }, [data.id]);
 
 
-    console.log(data)
     
     return (
         <div>
@@ -54,7 +56,7 @@ function AdminViewCourses(props) {
                                     <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{teacher.mobile}</td>
                                     {/* <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.email}</td> */}
                                     <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black', textAlign: "center" }}>
-                                        <Link to={`/AdminViewTeacherProfile?data=${encodeURIComponent(JSON.stringify({ "id": teacher.adminId , "courseId":data.id }))}`} className="profile-btn">View Profile</Link>
+                                        <Link to={`/AdminViewTeacherProfile?data=${encodeURIComponent(JSON.stringify({ "id": teacher.adminId , "courseId":data.id , "teacherList" : teacherList}))}`} className="profile-btn">View Profile</Link>
                                     </td>
                                 </tr>
                             )

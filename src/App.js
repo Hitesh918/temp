@@ -41,9 +41,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase.js"
 import axios from "axios"
 
-
+import Main from './pages/Landing.jsx';
 
 function App() {
+
 
     const [allCourses, setAllCourses] = useState([]);
 
@@ -172,10 +173,12 @@ function App() {
         <div>
             <BrowserRouter>
                 <div>
+
                     {userRole === "admin" && userData && <AdminSideBar name={userData && userData.name} role={userRole} id={userData && userData.superAdminId} dp={userData && userData.dp} />}
                     {userRole === "teacher" && userData && <TeacherSideBar name={userData && userData.name} role={userRole} id={userData && userData.adminId} dp={userData && userData.dp} />}
                     {userRole === "student" && userData && <StudentSideBar name={userData && userData.name} role={userRole} id={userData && userData.studentId} dp={userData && userData.dp} />}
                     <Routes>
+                        <Route path='/' element={<Main />}/>
                         <Route path='/login' element={<Login />} />
                         <Route path='/about' element={<About />} />
                         {/* Admin routes */}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import {auth} from "../firebase";
+import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 
@@ -29,10 +29,10 @@ function Login() {
                else if (user.email.substring(4, 7) === "adm") {
                   navigate("/Teacher", { replace: true });
                }
-               else if(user.email.substring(4, 7) === "stu"){
+               else if (user.email.substring(4, 7) === "stu") {
                   navigate("/Student", { replace: true });
                }
-               else{
+               else {
                   navigate("/login", { replace: true });
                }
             }
@@ -58,7 +58,7 @@ function Login() {
       e.preventDefault();
       setLoading(true);
 
-      signInWithEmailAndPassword(auth, signInDetails.email+"@gmail.com", signInDetails.password)
+      signInWithEmailAndPassword(auth, signInDetails.email + "@gmail.com", signInDetails.password)
          .then(() => {
             // console.log(signInDetails.email.substring(4, 8))
             setTimeout(() => {
@@ -68,10 +68,10 @@ function Login() {
                else if (signInDetails.email.substring(4, 7) === "adm") {
                   navigate("/Admin", { replace: true });
                }
-               else if(signInDetails.email.substring(4, 7) === "stu"){
+               else if (signInDetails.email.substring(4, 7) === "stu") {
                   navigate("/Student", { replace: true });
                }
-               else{
+               else {
                   navigate("/login", { replace: true });
                }
             }, 1000)

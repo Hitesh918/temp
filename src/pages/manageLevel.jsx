@@ -74,21 +74,6 @@ function ManageLevel(props) {
         }
     }
 
-    async function removeStudent(e) {
-        console.log(data.id)
-        try {
-            const res = await axios.post("http://localhost:5000/removeStudentFromCourse", {}, {
-                params: {
-                    studentId: e.target.value,
-                    courseId: data.id
-                }
-            });
-            console.log(res.data)
-        }
-        catch (error) {
-            console.error('An error occurred:', error);
-        }
-    }
 
     async function startGoogleMeetCall() {
         try {
@@ -149,16 +134,6 @@ function ManageLevel(props) {
                                     <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.mobile}</td>
                                     {/* <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black' }}>{student.email}</td> */}
                                     <td style={{ padding: '10px', border: '1px solid #ddd', color: 'black', textAlign: "center" }}>
-                                        {/* <button value={student.studentId} style={{ marginRight: "1rem" }} className="remove-btn" onClick={removeStudent}>Remove</button> */}
-                                        {/* <select onChange={handleChange} style={{ marginRight: "1rem" }} className="add-btn">
-                                            <option value="1">Change Batch</option>
-
-                                            {Array.from({ length: data.numberOfBatches }, (_, i) => i + 1).map((data, index) => {
-                                                return (
-                                                    <option key={index} value={data}>{data}</option>
-                                                )
-                                             })}
-                                        </select> */}
                                         <select onChange={e => handleChange(student.studentId, index, e.target.value)} style={{ marginRight: "1rem" }} className="add-btn">
                                             <option value="1">Change Batch</option>
 

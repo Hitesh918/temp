@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react'
 import { auth } from '../firebase'
 import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function AdminSideBar(props) {
+    const location = useLocation();
     const navigate = useNavigate();
     const [profilePic, setProfilePic] = useState("images/pic-1.jpg");
     const fileInput = useRef(null); //added this to make reference to file input
@@ -51,6 +52,10 @@ function AdminSideBar(props) {
             };
             reader.readAsDataURL(e.target.files[0]);
         }
+    }
+
+    if(location.pathname === "/" || location.pathname === "/login"){
+        return null;
     }
 
     return (
