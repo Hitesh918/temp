@@ -113,6 +113,8 @@ function TeacherLanding(props) {
                            </div>   
                         );
                      })}
+                     {props && props.courses && props.courses.length === 0 && <h1>No Courses</h1>}
+                     {props && props.courses && props.courses.length < 2 && <div></div>}
                   </div>
                   <div className="more-btn">
                      <a href="/courses" className="inline-option-btn">View All Courses</a>

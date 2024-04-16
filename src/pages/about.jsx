@@ -5,7 +5,6 @@ function about(){
     return(
         <div>
 <Header />
-<StudentSideBar />
   
 
 

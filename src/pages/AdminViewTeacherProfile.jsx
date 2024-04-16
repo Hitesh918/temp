@@ -139,6 +139,27 @@ function AdminViewTeacherProfile(props) {
         }
     }
 
+    async function removeTeacherFromAllCourses(){
+        var confirmed = window.confirm("Are you sure you want to remove this teacher from all courses?");
+        if (confirmed) {
+            try {
+                const res = await axios.post("http://localhost:5000/removeTeacherFromAllCourses", {}, {
+                    params: {
+                        adminId: data.id
+                    }
+                });
+                alert(res.data)
+                console.log(res.data)
+                if(res.data=="success"){
+                    window.location.reload();
+                }
+            }
+            catch (error) {
+                console.error('An error occurred:', error);
+            }
+        }
+    }
+
     console.log(data)
 
 
@@ -148,13 +169,13 @@ function AdminViewTeacherProfile(props) {
             <section className="teacher-profile" style={{ color: 'black', padding: '20px' }}>
                 <h1 className="heading" style={{ marginBottom: '20px' }}>Profile Details</h1>
                 <div className="details" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px' }}>
-                    <button style={{ width : "20rem" }} className="remove-btn"  >Remove From Institute</button>
+                    <button style={{ width : "20rem" }} className="remove-btn"  onClick={removeTeacherFromAllCourses}>Remove From Institute</button>
                     <div className="tutor" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
-                        <img src={details.dp} className="image" alt="" style={{ border: '2px solid black', width: '150px', height: '150px' }} />
-                        <h3>{details.name}</h3>
-                        <span className="adminId1" style={{ fontSize: '20px' }}>Admin ID: {details.adminId}</span>
-                        <p className="mobile1" style={{ fontSize: '20px' }}>Mobile: {details.mobile}</p>
-                        <p className="mobile1" style={{ fontSize: '20px' }}>Email: {details.email}</p>
+                        <img src={details && details.dp} className="image" alt="" style={{ border: '2px solid black', width: '150px', height: '150px' }} />
+                        <h3>{details && details.name}</h3>
+                        <span className="adminId1" style={{ fontSize: '20px' }}>Admin ID: {details && details.adminId}</span>
+                        <p className="mobile1" style={{ fontSize: '20px' }}>Mobile: {details && details.mobile}</p>
+                        <p className="mobile1" style={{ fontSize: '20px' }}>Email: {details && details.email}</p>
                     </div>
                     <div className="courses" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
                         <h2 className="sub-heading">Courses</h2>
@@ -201,7 +222,6 @@ function AdminViewTeacherProfile(props) {
                                                 )
                                             })}
                                         </select>
-                                        <button value={student.studentId} style={{ marginRight: "1rem" }} className="remove-btn" onClick={removeStudent} >Remove From This Course</button>
                                         <select onChange={e => handleBatchChange(student.studentId, index, e.target.value)} style={{ marginRight: "1rem" }} >
                                             <option value="1">Change Batch</option>
                                             {Array.from({ length: numberOfBatches }, (_, i) => i + 1).map((data, index) => {
@@ -210,6 +230,7 @@ function AdminViewTeacherProfile(props) {
                                                 )
                                             })}
                                         </select>
+                                        <button value={student.studentId} style={{ marginRight: "1rem" }} className="remove-btn" onClick={removeStudent} >Remove From This Course</button>
                                         {/* <Link to={`/ViewStudent?data=${encodeURIComponent(JSON.stringify({ "id": student.studentId }))}`} className="profile-btn">View Profile</Link> */}
                                         <button className="profile-btn" >View Profile</button>
                                     </td>

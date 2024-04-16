@@ -129,7 +129,7 @@ function StudentLanding(props) {
                               </div>
                               <div className="thumb">
                                  <img src="images/thumb-1.png" alt="" />
-                                 <span>{course.courseDetails.numberOfLevels}  Levels</span>
+                                 <span>{ course &&  course.courseDetails.numberOfLevels}  Levels</span>
                               </div>
                               <h3 className="title">{course.courseDetails.courseName}</h3>
                               <h2 style={{ color: "black" }}>Level {course.presentLevel}</h2>

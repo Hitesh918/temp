@@ -180,7 +180,6 @@ function App() {
                     <Routes>
                         <Route path='/' element={<Main />}/>
                         <Route path='/login' element={<Login />} />
-                        <Route path='/about' element={<About />} />
                         {/* Admin routes */}
                         {userRole === 'admin' && (
                             <>
@@ -212,10 +211,11 @@ function App() {
                                 <Route path='/StudentProfile' element={<StudentProfile name={userData && userData.name} />} />
                                 <Route path='/levels' element={<Levels name={userData && userData.name} id={userData && userData.studentId} />} />
                                 <Route path='/resource' element={<Resource name={userData && userData.name} id={userData && userData.studentId} />} />
+                                <Route path='/about' element={<About />} />
+                                <Route path='/contact' element={<Contact />} />
                             </>
                         )}
                         {/* Common routes */}
-                        <Route path='/contact' element={<Contact />} />
                         <Route path='/courses' element={<Courses />} />
                         <Route path='/register' element={<Register />} />
                         <Route path='/teachers' element={<Teachers />} />

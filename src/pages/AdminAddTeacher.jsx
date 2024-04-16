@@ -66,7 +66,7 @@ function AdminAddTeacher(props) {
         }
 
         // Confirmation dialog handled outside of JSX
-        var confirmed = window.confirm("Are you sure you want to add this student?");
+        var confirmed = window.confirm("Are you sure you want to add this Teacher?");
         if (confirmed) {
 
             //console.log("Student added successfully!");

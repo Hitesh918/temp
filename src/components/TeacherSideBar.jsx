@@ -52,7 +52,7 @@ function TeacherSideBar(props) {
         setProfilePic(props.dp);
     }, [props.dp]);
 
-    console.log("props in sidebar" , props)
+    // console.log("props in sidebar" , props)
 
     if(location.pathname === "/" || location.pathname === "/login"){
         return null;

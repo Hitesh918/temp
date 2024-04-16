@@ -5,7 +5,6 @@ function Contact() {
     return (
         <div>
             <Header />
-            <StudentSideBar />
 
             <section className="contact">
                 <div className="row">

@@ -161,7 +161,7 @@ app.get("/adminDetails", async (req, res) => {
             adminId: admin.adminId,
             mobile: admin.mobile,
             courses: courses,
-            email  : admin.email,
+            email: admin.email,
             dp: admin.dp,
         };
         res.send(result);
@@ -179,7 +179,7 @@ app.get("/getStudentsUnderTeacher", async (req, res) => {
     let taughtBy = parseInt(req.query.adminId)
     // let adminId = parseInt(req.query.adminId)
     let courseId = parseInt(req.query.courseId)
-    try{
+    try {
         // let students=await Student.find({
         //     "courses": {
         //         $elemMatch: {
@@ -189,7 +189,7 @@ app.get("/getStudentsUnderTeacher", async (req, res) => {
         //     }
         // }).select("name email mobile studentId.$");
         // res.send(students);
-        let students=await Student.aggregate([
+        let students = await Student.aggregate([
             {
                 $unwind: "$courses"
             },
@@ -213,7 +213,7 @@ app.get("/getStudentsUnderTeacher", async (req, res) => {
         ])
         res.send(students);
     }
-    catch(error){
+    catch (error) {
         console.error('Error finding students:', error);
     }
 })
@@ -272,7 +272,8 @@ app.get("/studentDetails", async (req, res) => {
             name: student.name,
             studentId: student.studentId,
             mobile: student.mobile,
-            courses: coursesDetails
+            courses: coursesDetails,
+            dp:student.dp
         };
         res.send(result);
         console.log(result);
@@ -295,7 +296,7 @@ app.get("/sudoTeacherList", async (req, res) => {
 app.get("/superAdminDetails", async (req, res) => {
     console.log(req.query)
     try {
-        let sudo =await SuperAdmin.findOne({superAdminId : parseInt(req.query.superAdminId)})
+        let sudo = await SuperAdmin.findOne({ superAdminId: parseInt(req.query.superAdminId) })
         console.log(sudo)
         res.send(sudo)
     }
@@ -406,7 +407,7 @@ app.post("/newTeacher", async (req, res) => {
         let obj = new Admin({
             name: req.query.name,
             email: req.query.email,
-            adminId:parseInt(req.query.id),
+            adminId: parseInt(req.query.id),
             mobile: parseInt(req.query.mobile),
             courses: courses,
             profile: req.query.info
@@ -443,7 +444,7 @@ app.post("/changeBatch", async (req, res) => {
 
 app.post("/changeTeacher", async (req, res) => {
     console.log(req.query)
-    try{
+    try {
         let oldAdminId = parseInt(req.query.oldAdminId)
         let newAdminId = parseInt(req.query.newAdminId)
         let studentId = parseInt(req.query.studentId)
@@ -459,12 +460,12 @@ app.post("/changeTeacher", async (req, res) => {
             { $addToSet: { "courses.$.studentList": studentId } }
         );
 
-        await Student.updateOne({ studentId: studentId, "courses.courseId": courseId }, { $set: { "courses.$.taughtBy": newAdminId , "courses.$.batch":1 } });
+        await Student.updateOne({ studentId: studentId, "courses.courseId": courseId }, { $set: { "courses.$.taughtBy": newAdminId, "courses.$.batch": 1 } });
 
         console.log("Teacher changed");
         res.send("success");
     }
-    catch(error){
+    catch (error) {
         console.log(error)
     }
 });
@@ -533,14 +534,14 @@ app.post("/removeTeacherFromCourse", async (req, res) => {
             { $pull: { 'courses': { 'courseId': courseId } } }
         );
         console.log(resp)
-        if(resp){
+        if (resp) {
             await Course.updateOne(
                 { courseId: courseId },
                 { $pull: { teachers: adminId } }
             );
             res.send("success");
         }
-        else{
+        else {
             res.send("Admin has students in the course")
         }
         // console.log("Teacher removed");
@@ -551,16 +552,52 @@ app.post("/removeTeacherFromCourse", async (req, res) => {
     }
 })
 
+app.post("/removeTeacherFromAllCourses", async (req, res) => {
+    console.log(req.query)
+    let adminId = parseInt(req.query.adminId)
+    try {
+        let admin = await Admin.findOne({ adminId: adminId });
+        if (!admin) {
+            console.log("Admin not found");
+            return;
+        }
+        const allEmpty = admin.courses.every(course => course.studentList.length === 0);
+        if (allEmpty) {
+            Admin.deleteOne({ adminId: adminId }).then(() => {
+                Course.updateMany(
+                    { teachers: adminId },
+                    { $pull: { teachers: adminId } })
+                    .then(() => {
+                        console.log("Admin removed");
+                        res.send("success");
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+        else {
+            res.send("Admin has students in the course")
+        }
+    }
+
+    catch (error) {
+        console.log(error)
+    }
+});
+
 app.post("/uploadDP", async (req, res) => {
     console.log(req.body)
     let id = parseInt(req.body.id)
     try {
         const result = await cloudinary.uploader.upload(req.body.image, options);
         console.log(result);
-        if (result.url && req.body.role === "admin") {
+        if (result && result.url && req.body.role === "admin") {
             let superAdmin = await SuperAdmin.findOne({ superAdminId: id });
             let url = superAdmin.dp;
-            if (url) {
+            if (url && url.startsWith("http")) {
                 let publicId = url.split("/")[7].split(".")[0];
                 // Use await with cloudinary.uploader.destroy
                 const destroyResult = await cloudinary.uploader.destroy(publicId);
@@ -569,10 +606,10 @@ app.post("/uploadDP", async (req, res) => {
             await SuperAdmin.findOneAndUpdate({ superAdminId: id }, { dp: result.url });
             res.send("Resource added");
         }
-        else if(result.url && req.body.role === "teacher"){
+        else if (result && result.url && req.body.role === "teacher") {
             let admin = await Admin.findOne({ adminId: id });
             let url = admin.dp;
-            if (url) {
+            if (url && url.startsWith("http")) {
                 let publicId = url.split("/")[7].split(".")[0];
                 // Use await with cloudinary.uploader.destroy
                 const destroyResult = await cloudinary.uploader.destroy(publicId);
@@ -581,10 +618,11 @@ app.post("/uploadDP", async (req, res) => {
             await Admin.findOneAndUpdate({ adminId: id }, { dp: result.url });
             res.send("Resource added");
         }
-        else if (result.url && req.body.role === "student") {
+        else if (result && result.url && req.body.role === "student") {
             let student = await Student.findOne({ studentId: id })
             let url = student.dp
-            if (url) {
+            console.log("url", url)
+            if (url && url.startsWith("http")) {
                 let publicId = url.split("/")[7].split(".")[0];
                 // Use await with cloudinary.uploader.destroy
                 const destroyResult = await cloudinary.uploader.destroy(publicId);
