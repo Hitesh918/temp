@@ -11,16 +11,16 @@ app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ limit: "25mb" }));
 
 
-mongoose.connect("mongodb+srv://hrenukunta66:hitesh66@cluster0.pfx1ved.mongodb.net/READB")
+mongoose.connect("mongodb+srv://reaabacus1:erGQnoMe3Y5mV1cd@rea.k8odx3q.mongodb.net/REA")
     .catch((err) => {
         console.log(err)
     })
 
 
 cloudinary.config({
-    cloud_name: 'dmehhuj31',
-    api_key: '649363557463833',
-    api_secret: 'PpZBH_dagqBMfbs1AdEs8GGpTLY',
+    cloud_name: 'dsusqpe6b',
+    api_key: '384114425379965',
+    api_secret: 'xpcvc4YXZW1UimnYjADGvVu23g8',
     secure: true
 });
 
@@ -273,7 +273,7 @@ app.get("/studentDetails", async (req, res) => {
             studentId: student.studentId,
             mobile: student.mobile,
             courses: coursesDetails,
-            dp:student.dp
+            dp: student.dp
         };
         res.send(result);
         console.log(result);
