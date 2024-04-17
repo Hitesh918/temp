@@ -53,7 +53,7 @@ function StudentSideBar(props) {
         }
     }, [props.dp]);
 
-    if(location.pathname === "/" || location.pathname === "/login"){
+    if(location.pathname === "/" || location.pathname === "/login" || location.pathname === "/changePassword"){
         return null;
     }
 

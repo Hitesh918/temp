@@ -54,7 +54,7 @@ function Levels(props) {
                             <h3>About Teacher</h3>
                             {courseDetails && courseDetails.profile && <p>{courseDetails.profile}<p><p></p></p></p>}
                             {/* <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum minus reiciendis, error sunt veritatis exercitationem deserunt velit doloribus itaque voluptate.</p> */}
-                            <a href="/teacher_profile" className="inline-btn">view profile</a>
+                            {/* <a href="/teacher_profile" className="inline-btn">view profile</a> */}
                         </div>
                     </div>
                 </div>

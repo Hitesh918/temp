@@ -54,7 +54,7 @@ function AdminSideBar(props) {
         }
     }
 
-    if(location.pathname === "/" || location.pathname === "/login"){
+    if(location.pathname === "/" || location.pathname === "/login" || location.pathname === "/changePassword" ){
         return null;
     }
 
@@ -76,7 +76,7 @@ function AdminSideBar(props) {
             <nav className="navbar"> <Link to="/admin"><i className="fas fa-home"></i><span>Home</span></Link>
                 <Link to="/adminAddStudent"><i className="fas fa-plus"></i><span>Add New Student</span></Link>
                 <Link to="/adminAddTeacher"><i className="fas fa-plus"></i><span>Add New Teacher</span></Link>
-                <Link to="/courses" ><i className="fas fa-plus"></i><span>Add Course</span></Link>
+                {/* <Link to="/courses" ><i className="fas fa-plus"></i><span>Add Course</span></Link> */}
                 <Link to="/adminuploadmaterial"><i className="fas fa-graduation-cap"></i><span>Upload Material</span></Link>
                 <Link to="/logout" onClick={handleLogOut}><i className="fas fa-right-from-bracket"></i><span>Log Out</span></Link>
             </nav>

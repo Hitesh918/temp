@@ -46,7 +46,7 @@ function TeacherLanding(props) {
 
                {/* <section className="home-grid">
 
-                  <h1 className="heading">quick options</h1>
+                  <h1 className="heading">Quick options</h1>
 
                   <div className="box-container">
 
@@ -104,7 +104,7 @@ function TeacherLanding(props) {
                         return (
                            <div className="box" key={course.courseId}>
                               <div className="thumb">
-                                 <img src="images/thumb-1.png" alt="" />
+                                 <img src={`images/${course.courseId}.png`} alt="" />
                                <span>{course.numberOfBatches} Batches</span> { }
                               </div>
                               <h3 className="title">{course.courseName}</h3>

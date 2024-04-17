@@ -1,63 +1,56 @@
 import React from 'react'
-import StudentSideBar from '../components/StudentSideBar';
 import Header from '../components/Header';
-
+import { Link } from 'react-router-dom';
 function StudentProfile(props) {
+
+   const [details, setDetails] = React.useState({})
+
+   React.useEffect(() => {
+      setDetails(props.details)
+   }, [props])
+   console.log(props)
    return (
       <div>
          <Header />
-         {/* <StudentSideBar name={props.name} /> */}
-         <section className="user-profile">
-
-            <h1 className="heading">Your Profile</h1>
-
-            <div className="info">
-
-               <div className="user">
-                  <img src="images/pic-1.jpg" alt="" />
-                  <h3>{props.name}</h3>
-                  <p>Student</p>
-                  <a href="/update" className="inline-btn">Update Profile</a>
-               </div>
-
-               <div className="box-container">
-
-                  <div className="box">
-                     <div className="flex">
-                        <i className="fas fa-bookmark"></i>
-                        <div>
-                           <span>4</span>
-                           <p>Saved Playlist</p>
-                        </div>
-                     </div>
-                     <a href="#" className="inline-btn">View Playlists</a>
-                  </div>
-
-                  <div className="box">
-                     <div className="flex">
-                        <i className="fas fa-heart"></i>
-                        <div>
-                           <span>4</span>
-                           <p>Courses Opted</p>
-                        </div>
-                     </div>
-                     <a href="#" className="inline-btn">View Liked</a>
-                  </div>
-
-                  <div className="box">
-                     <div className="flex">
-                        <i className="fas fa-comment"></i>
-                        <div>
-                           <span>1</span>
-                           <p>Courses Completed</p>
-                        </div>
-                     </div>
-                     <a href="#" className="inline-btn">View Comments</a>
-                  </div>
-
+         <section className="admin-profile" style={{
+            marginTop: "3rem",
+            color: 'black',
+            padding: '20px',
+            backgroundColor: 'white',
+            borderRadius: '10px',
+            boxShadow: '5px 5px 10px rgba(0,0,0,0.1)',
+            fontFamily: 'Arial, sans-serif'
+         }}>
+            <h1 className="heading" style={{ marginBottom: '20px' }}>Profile Details</h1>
+            <div className="details" style={{
+               display: 'flex',
+               flexDirection: 'column',
+               justifyContent: 'space-between',
+               gap: '20px'
+            }}>
+               <div className="admin" style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  alignItems: 'center',
+                  backgroundColor: 'white',
+                  padding: '20px',
+                  borderRadius: '10px'
+               }}>
+                  <img src={details && details.dp} className="image" alt="" style={{
+                     border: '2px solid black',
+                     width: '100px',
+                     height: '100px',
+                     borderRadius: '50%',
+                  }} />
+                  <h1>{details && details.name}</h1>
+                  <span className="adminId1" style={{ fontSize: '20px' }}>Student ID: {details && details.studentId}</span>
+                  <p className="mobile1" style={{ fontSize: '20px' }}>Mobile: {details && details.mobile}</p>
+                  <p className="email1" style={{ fontSize: '20px' }}>Email: {details && details.email}</p>
+                  <Link to="/changePassword" className="profile-btn">Change password</Link>
+                  {/* <button className="profile-btn" >Change password</button> */}
                </div>
             </div>
-
          </section>
 
       </div>

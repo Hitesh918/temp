@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
-import AdminSideBar from '../components/AdminSideBar';
+// import AdminSideBar from '../components/AdminSideBar';
 import { Link } from 'react-router-dom';
 
 function AdminProfile(props) {
@@ -16,6 +16,7 @@ function AdminProfile(props) {
             <Header />
 
             <section className="admin-profile" style={{
+                marginTop:"3rem",
                 color: 'black',
                 padding: '20px',
                 backgroundColor: 'white',
@@ -49,6 +50,8 @@ function AdminProfile(props) {
                         <span className="adminId1" style={{ fontSize: '20px' }}>Super Admin ID: {details && details.superAdminId}</span>
                         <p className="mobile1" style={{ fontSize: '20px' }}>Mobile: {details && details.mobile}</p>
                         <p className="email1" style={{ fontSize: '20px' }}>Email: {details && details.email}</p>
+                        <Link to="/changePassword" className="profile-btn">Change password</Link>
+                        {/* <button className="profile-btn" >Change password</button> */}
                     </div>
                 </div>
             </section>

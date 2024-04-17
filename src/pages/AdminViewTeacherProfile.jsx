@@ -1,10 +1,9 @@
 import React from 'react'
 import Header from '../components/Header';
-import AdminSideBar from '../components/AdminSideBar';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { set } from 'firebase/database';
+import { deleteUser } from 'firebase/auth';
 
 function AdminViewTeacherProfile(props) {
     const [searchParams] = useSearchParams();
@@ -151,7 +150,13 @@ function AdminViewTeacherProfile(props) {
                 alert(res.data)
                 console.log(res.data)
                 if(res.data=="success"){
-                    window.location.reload();
+                    let mail = `rea.adm${data.id}@gmail.com`
+                    deleteUser("ZOjbRAvY6dYcyHV0pQ1Dp9JM8nR2").then(()=>{
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
                 }
             }
             catch (error) {
@@ -231,8 +236,8 @@ function AdminViewTeacherProfile(props) {
                                             })}
                                         </select>
                                         <button value={student.studentId} style={{ marginRight: "1rem" }} className="remove-btn" onClick={removeStudent} >Remove From This Course</button>
-                                        {/* <Link to={`/ViewStudent?data=${encodeURIComponent(JSON.stringify({ "id": student.studentId }))}`} className="profile-btn">View Profile</Link> */}
-                                        <button className="profile-btn" >View Profile</button>
+                                        <Link to={`/AdminViewStudent?data=${encodeURIComponent(JSON.stringify({ "id": student.studentId }))}`} className="profile-btn">View Profile</Link>
+                                        {/* <button className="profile-btn" >View Profile</button> */}
                                     </td>
                                 </tr>
                             )

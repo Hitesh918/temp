@@ -54,7 +54,7 @@ function TeacherSideBar(props) {
 
     // console.log("props in sidebar" , props)
 
-    if(location.pathname === "/" || location.pathname === "/login"){
+    if(location.pathname === "/" || location.pathname === "/login" || location.pathname === "/changePassword"){
         return null;
     }
 

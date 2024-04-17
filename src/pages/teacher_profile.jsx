@@ -1,139 +1,62 @@
-import React from 'react'
+import React from 'react';
+import Header from '../components/Header';
+// import TeacherSideBar from '../components/TeacherSideBar';
+import { Link } from 'react-router-dom';
 
-function contact(){
-    return(
-        <div>
+function TeacherProfile(props) {
+   const [details, setDetails] = React.useState({})
 
+   React.useEffect(() => {
+      setDetails(props.details)
+   }, [props])
+   console.log(props)
 
-<div className="side-bar">
+   return (
+      <div>
+         <Header />
 
-   <div id="close-btn">
-      <i className="fas fa-times"></i>
-   </div>
-
-   <div className="profile">
-      <img src="images/pic-1.jpg" className="image" alt=""/>
-      <h3 className="name">Swami</h3>
-      <p className="role">Teacher</p>
-      <a href="/profile" className="btn">View Profile</a>
-   </div>
-
-   <nav className="navbar">
-      <a href="/"><i className="fas fa-home"></i><span>Home</span></a>
-      <a href="/about"><i className="fas fa-question"></i><span>About</span></a>
-      <a href="/courses"><i className="fas fa-graduation-cap"></i><span>Courses</span></a>
-      <a href="/teachers"><i className="fas fa-chalkboard-user"></i><span>Teachers</span></a>
-      <a href="/contact"><i className="fas fa-headset"></i><span>Contact Us</span></a>
-   </nav>
-
-</div>
-
-<section className="teacher-profile">
-
-   <h1 className="heading">Profile Details</h1>
-
-   <div className="details">
-      <div className="tutor">
-         <img src="images/pic-2.jpg" alt=""/>
-         <h3>John dDeo</h3>
-         <span>Teacher</span>
+         <section className="teacher-profile" style={{
+            marginTop: "3rem",
+            color: 'black',
+            padding: '20px',
+            backgroundColor: 'white',
+            borderRadius: '10px',
+            boxShadow: '5px 5px 10px rgba(0,0,0,0.1)',
+            fontFamily: 'Arial, sans-serif'
+         }}>
+            <h1 className="heading" style={{ marginBottom: '20px' }}>Profile Details</h1>
+            <div className="details" style={{
+               display: 'flex',
+               flexDirection: 'column',
+               justifyContent: 'space-between',
+               gap: '20px'
+            }}>
+               <div className="teacher" style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  alignItems: 'center',
+                  backgroundColor: 'white',
+                  padding: '20px',
+                  borderRadius: '10px'
+               }}>
+                  <img src={details && details.dp} className="image" alt="" style={{
+                     border: '2px solid black',
+                     width: '100px',
+                     height: '100px',
+                     borderRadius: '50%',
+                  }} />
+                  <h1>{details && details.name}</h1>
+                  <span className="teacherId1" style={{ fontSize: '20px' }}>Teacher ID: {details && details.adminId}</span>
+                  <p className="mobile1" style={{ fontSize: '20px' }}>Mobile: {details && details.mobile}</p>
+                  <p className="email1" style={{ fontSize: '20px' }}>Email: {details && details.email}</p>
+                  <Link to="/changePassword" className="profile-btn">Change password</Link>
+                  {/* <button className="profile-btn" >Change password</button> */}
+               </div>
+            </div>
+         </section>
       </div>
-      <div className="flex">
-         <p>Total Playlists : <span>4</span></p>
-         <p>Total Videos : <span>18</span></p>
-      </div>
-   </div>
-
-</section>
-
-<section className="courses">
-
-   <h1 className="heading">Courses</h1>
-
-   <div className="box-container">
-
-      <div className="box">
-         <div className="thumb">
-            <img src="images/thumb-1.png" alt=""/>
-            <span>10 videos</span>
-         </div>
-         <h3 className="title">Basic - B1, B2</h3>
-         <a href="/playlist" className="inline-btn">view playlist</a>
-      </div>
-
-      <div className="box">
-         <div className="thumb">
-            <img src="images/thumb-2.png" alt=""/>
-            <span>10 videos</span>
-         </div>
-         <h3 className="title"> Level 1 </h3>
-         <a href="/playlist" className="inline-btn">view playlist</a>
-      </div>
-
-      <div className="box">
-         <div className="thumb">
-            <img src="images/thumb-3.png" alt=""/>
-            <span>10 videos</span>
-         </div>
-         <h3 className="title">Level 2</h3>
-         <a href="/playlist" className="inline-btn">view playlist</a>
-      </div>
-
-      <div className="box">
-         <div className="thumb">
-            <img src="images/thumb-4.png" alt=""/>
-            <span>10 videos</span>
-         </div>
-         <h3 className="title">Level 3</h3>
-         <a href="/playlist" className="inline-btn">View Playlist</a>
-      </div>
-
-      <div className="box">
-         <div className="thumb">
-            <img src="images/thumb-4.png" alt=""/>
-            <span>10 videos</span>
-         </div>
-         <h3 className="title">Level 4</h3>
-         <a href="/playlist" className="inline-btn">View Playlist</a>
-      </div>
-
-      <div className="box">
-         <div className="thumb">
-            <img src="images/thumb-4.png" alt=""/>
-            <span>10 videos</span>
-         </div>
-         <h3 className="title">Level 5</h3>
-         <a href="/playlist" className="inline-btn">View Playlist</a>
-      </div>
-
-      <div className="box">
-         <div className="thumb">
-            <img src="images/thumb-4.png" alt=""/>
-            <span>10 videos</span>
-         </div>
-         <h3 className="title">Level 6</h3>
-         <a href="/playlist" className="inline-btn">View Playlist</a>
-      </div>
-
-   </div>
-
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    )
+   );
 }
 
-export default contact
+export default TeacherProfile;
