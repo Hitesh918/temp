@@ -511,10 +511,13 @@ app.post("/removeStudentFromAllCourses", async (req, res) => {
             { "courses.studentList": studentId },
             { $pull: { "courses.$.studentList": studentId } }
         );
-        await Student.updateOne(
+        await Student.deleteOne(
             { studentId: studentId },
-            { $set: { courses: [] } }
         );
+        // await Student.updateOne(
+        //     { studentId: studentId },
+        //     { $set: { courses: [] } }
+        // );
         console.log("Student removed");
         res.send("Student removed");
     }
